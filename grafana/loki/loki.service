@@ -1,0 +1,18 @@
+[Unit]
+Description="Grafana Loki service - a fully featured logging stack"
+Documentation=https://grafana.com/docs/loki/latest/
+ConditionFileNotEmpty=/usr/local/etc/loki/loki-local-config.yaml
+After=network.target
+
+[Service]
+Type=simple
+User=loki
+Group=loki
+ExecStart=/usr/local/bin/loki -config.file /usr/local/etc/loki/loki-local-config.yaml
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target

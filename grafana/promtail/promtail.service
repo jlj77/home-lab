@@ -1,0 +1,18 @@
+[Unit]
+Description="Grafana Promtail service - Loki logs agent"
+Documentation=https://grafana.com/docs/loki/latest/clients/promtail/
+ConditionFileNotEmpty=/usr/local/etc/loki/promtail-local-config.yaml
+After=network.target
+
+[Service]
+Type=simple
+User=promtail
+Group=loki
+ExecStart=/usr/local/bin/promtail -config.file /usr/local/etc/loki/promtail-local-config.yaml
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60
+StartLimitBurst=3
+
+[Install]
+WantedBy=multi-user.target
